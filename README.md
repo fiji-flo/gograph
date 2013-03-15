@@ -1,4 +1,4 @@
 gograph
 =======
 
-my first step in go
+my first steps in go
