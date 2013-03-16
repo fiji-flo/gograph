@@ -1,15 +1,14 @@
-package main
+package gograph
 
 import (
     "os"
-    "github.com/fiji-flo/gograph/reader"
 )
 
 func main() {
     if len(os.Args) != 2 {
         return
     }
-    reader.Read(os.Args[1])
+    Read(os.Args[1])
 }
 
 
