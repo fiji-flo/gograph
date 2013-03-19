@@ -8,6 +8,7 @@ type Edge struct {
 
 type Node struct {
     id int
+    bits int
     edges map[int]Edge
 }
 
