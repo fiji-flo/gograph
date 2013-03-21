@@ -1,5 +1,10 @@
 package gograph
 
+type Coords struct {
+    x int
+    y int
+}
+
 type Edge struct {
     from int
     to int
@@ -9,6 +14,7 @@ type Edge struct {
 type Node struct {
     id int
     bits int
+    co Coords
     edges map[int]Edge
 }
 

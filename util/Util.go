@@ -12,6 +12,9 @@ func main() {
         return
     }
     G := gograph.Read(os.Args[1])
+    if len(os.Args) == 3 {
+        G.AddCoordinates(os.Args[2])
+    }
     fmt.Printf("%d %d\n", G.N, G.M)
     var s, t int
     s = 1
@@ -27,9 +30,9 @@ func main() {
         var µs = dur.Nanoseconds()/1000
         fmt.Printf("path: %d (in %dµs)\n", l, µs)
     }
-    if len(os.Args) == 3 {
-        gograph.Write(os.Args[2], G)
-    }
+    //if len(os.Args) == 3 {
+    //    gograph.Write(os.Args[2], G)
+    //}
 }
 
 

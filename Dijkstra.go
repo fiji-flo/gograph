@@ -15,22 +15,18 @@ func DijkstraST(g *Graph, sId int, tId int) int {
         g.V[i].bits = inf
     }
     s.bits = 0
-    for vId, uv := range s.edges {
-        item := &Item{
-            value:      &g.V[vId],
-            priority:   s.bits + uv.weight,
-        }
-        heap.Push(&pq, item)
+    cur := &Item{
+        value:      s,
+        priority:   s.bits,
     }
-    cur := heap.Pop(&pq).(*Item)
     for cur.value.id != tId {
         u := cur.value
-        if u.bits > cur.priority {
-            u.bits = cur.priority
-            for vId, uv := range u.edges {
+        for vId, uv := range u.edges {
+            if u.bits + uv.weight < g.V[vId].bits {
+                g.V[vId].bits = u.bits + uv.weight
                 item := &Item{
                     value:      &g.V[vId],
-                    priority:   u.bits + uv.weight,
+                    priority:   g.V[vId].bits,
                 }
                 heap.Push(&pq, item)
             }

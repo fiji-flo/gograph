@@ -54,3 +54,40 @@ func Read(name string) (G Graph) {
     G.V = V
     return
 }
+
+func (G *Graph) AddCoordinates(filename string) {
+    f, err := os.Open(filename)
+    if err != nil {
+        return
+    }
+    r := bufio.NewReader(f)
+
+    var lineStr string
+    var line []string
+    for err == nil {
+        lineStr, err = r.ReadString('\n')
+        line = strings.Fields(lineStr)
+        if len(line) < 1 || line[0] == "c" {
+            continue
+        }
+        if line[0] == "p" {
+            if len(line) != 4 {
+                return
+            }
+            var n int
+            n, err = strconv.Atoi(line[3])
+            if n != G.N {
+                return;
+            }
+        } else if line[0] == "v" {
+            if len(line) != 4 {
+                return
+            }
+            var id int
+            id, err = strconv.Atoi(line[1])
+            G.V[id].co.x, err = strconv.Atoi(line[2])
+            G.V[id].co.y, err = strconv.Atoi(line[3])
+        }
+    }
+    f.Close()
+}
