@@ -2,6 +2,7 @@ package gograph
 
 import (
 	"container/heap"
+    "sort"
 )
 
 func DijkstraST(g *Graph, sId int, tId int) int {
@@ -24,11 +25,16 @@ func DijkstraST(g *Graph, sId int, tId int) int {
         for vId, uv := range u.edges {
             if u.bits + uv.weight < g.V[vId].bits {
                 g.V[vId].bits = u.bits + uv.weight
-                item := &Item{
-                    value:      &g.V[vId],
-                    priority:   g.V[vId].bits,
+                titem := pq.get(&g.V[vId])
+                if titem != nil {
+                    pq.changePriority(titem, g.V[vId].bits)
+                } else {
+                    item := &Item{
+                        value:      &g.V[vId],
+                        priority:   g.V[vId].bits,
+                    }
+                    heap.Push(&pq, item)
                 }
-                heap.Push(&pq, item)
             }
         }
         cur = heap.Pop(&pq).(*Item)
@@ -102,4 +108,13 @@ func (pq *PriorityQueue) changePriority(item *Item, priority int) {
 	heap.Remove(pq, item.index)
 	item.priority = priority
 	heap.Push(pq, item)
+}
+
+func (pq PriorityQueue) get(value *Node) *Item {
+    i :=sort.Search(len(pq),func(i int) bool { 
+        return pq[i].value == value })
+    if i < len(pq) {
+        return pq[i]
+    }
+    return nil
 }
